@@ -1,13 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hyper Menu</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <div id="app" class="hidden">
+  <div id="app">
     <div class="backdrop"></div>
 
     <main class="panel">
@@ -19,18 +20,30 @@
             <span id="version">2.0.0</span>
           </div>
         </div>
+
         <button id="close" class="close">×</button>
       </header>
 
+      <!-- CARREGAMENTO -->
       <section id="loading" class="screen">
         <div class="loader"></div>
+
         <h2>Hyper Menu</h2>
-        <p>Carregando configuração...</p>
+        <p id="loadingText">Carregando Hyper Menu...</p>
+
+        <div class="progress">
+          <div class="progress-bar"></div>
+        </div>
       </section>
 
+      <!-- VINCULAÇÃO -->
       <section id="link" class="screen hidden">
         <div class="server-card">
-          <img id="serverLogo" alt="Logo" onerror="this.style.display='none'">
+          <div class="server-logo">
+            <img id="serverLogo" alt="">
+            <span id="serverFallback">H</span>
+          </div>
+
           <div>
             <small>GRUPO DETECTADO</small>
             <h2 id="serverName">Sem Grupo</h2>
@@ -43,52 +56,131 @@
             <small>USUÁRIO</small>
             <strong id="username">-</strong>
           </div>
-          <div class="code">
-            <small>CÓDIGO</small>
-            <strong id="code">HYPER----</strong>
+
+          <div>
+            <small>CÓDIGO DE VINCULAÇÃO</small>
+            <strong id="code">HYP-XXXX-XXXX</strong>
           </div>
         </div>
 
-        <button id="linkButton" class="primary">Vincular Menu</button>
+        <button id="linkButton" class="primary">
+          Vincular Menu
+        </button>
+
         <p id="status" class="status"></p>
       </section>
 
+      <!-- MENU PRINCIPAL -->
       <section id="menu" class="hidden">
+
         <div class="dashboard">
-          <div class="welcome">
+          <div>
             <small>HYPER MENU</small>
-            <h2>Olá, <span id="menuUser">-</span></h2>
+            <h2>Olá, <span id="menuUser">Usuário</span></h2>
             <p id="menuGroup">Sem Grupo</p>
           </div>
-          <div class="pill" id="accessPill">LIBERADO</div>
+
+          <div id="accessPill" class="pill">
+            LIBERADO
+          </div>
         </div>
 
         <nav class="tabs">
           <button class="tab active" data-tab="home">Início</button>
+          <button class="tab" data-tab="player">Player</button>
+          <button class="tab" data-tab="vehicles">Veículos</button>
           <button class="tab" data-tab="players">Jogadores</button>
           <button class="tab" data-tab="settings">Configurações</button>
         </nav>
 
         <div class="content">
+
           <div id="tab-home" class="tab-content">
             <div class="grid">
-              <div class="stat"><small>Servidor</small><b id="statServer">-</b></div>
-              <div class="stat"><small>Jogadores</small><b id="statPlayers">0</b></div>
-              <div class="stat"><small>Anti-cheat</small><b id="statAc">-</b></div>
+              <div class="stat">
+                <small>Servidor</small>
+                <strong id="statServer">-</strong>
+              </div>
+
+              <div class="stat">
+                <small>Jogadores</small>
+                <strong id="statPlayers">0</strong>
+              </div>
+
+              <div class="stat">
+                <small>Status</small>
+                <strong>Conectado</strong>
+              </div>
+            </div>
+          </div>
+
+          <div id="tab-player" class="tab-content hidden">
+            <div class="section-title">
+              <h3>Player</h3>
+              <p>Controles disponíveis para o jogador.</p>
+            </div>
+
+            <div class="actions-grid">
+              <button class="action" data-action="reviver">
+                Reviver
+              </button>
+
+              <button class="action" data-action="limparFerimentos">
+                Limpar ferimentos
+              </button>
+
+              <button class="action" data-action="teleportWaypoint">
+                Ir para marcação
+              </button>
+
+              <button class="action toggle" data-action="staminaInfinita">
+                Stamina
+                <span>OFF</span>
+              </button>
+
+              <button class="action toggle" data-action="semRagdoll">
+                Sem Ragdoll
+                <span>OFF</span>
+              </button>
+            </div>
+          </div>
+
+          <div id="tab-vehicles" class="tab-content hidden">
+            <div class="section-title">
+              <h3>Veículos</h3>
+              <p>Área de gerenciamento de veículos.</p>
+            </div>
+
+            <div class="empty-state">
+              Os veículos configurados para o servidor aparecerão aqui.
             </div>
           </div>
 
           <div id="tab-players" class="tab-content hidden">
+            <div class="section-title">
+              <h3>Jogadores</h3>
+              <p>Jogadores conectados.</p>
+            </div>
+
             <div id="players" class="players"></div>
           </div>
 
           <div id="tab-settings" class="tab-content hidden">
-            <button class="action" data-action="fecharMenu">Fechar Menu</button>
+            <div class="section-title">
+              <h3>Configurações</h3>
+              <p>Preferências do Hyper Menu.</p>
+            </div>
+
+            <button class="action" data-action="fecharMenu">
+              Fechar Menu
+            </button>
           </div>
+
         </div>
       </section>
     </main>
   </div>
+
   <script src="app.js"></script>
 </body>
 </html>
