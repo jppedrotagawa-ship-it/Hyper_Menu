@@ -1,101 +1,212 @@
-const $ = (id) => document.getElementById(id);
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => document.querySelectorAll(selector);
 
-const app = $("app");
-const loading = $("loading");
-const linkScreen = $("link");
-const menu = $("menu");
-const statusText = $("status");
+/* =========================
+   NAVEGAÇÃO LATERAL
+========================= */
 
-let currentServer = {
-  id: "default",
-  group: "Sem Grupo",
-  logo: ""
-};
+$$(".side-item").forEach((button) => {
+  button.addEventListener("click", () => {
+    const page = button.dataset.page;
 
-let playerData = {
-  username: "Usuário",
-  code: "HYP-XXXX-XXXX"
-};
+    $$(".side-item").forEach((item) => {
+      item.classList.remove("active");
+    });
 
-function showScreen(screen) {
-  loading.classList.add("hidden");
-  linkScreen.classList.add("hidden");
-  menu.classList.add("hidden");
+    button.classList.add("active");
 
-  screen.classList.remove("hidden");
+    $$(".page").forEach((section) => {
+      section.classList.remove("active-page");
+    });
+
+    const target = document.getElementById(`page-${page}`);
+
+    if (target) {
+      target.classList.add("active-page");
+    }
+  });
+});
+
+/* =========================
+   SWITCHES VISUAIS
+========================= */
+
+$$(".switch").forEach((button) => {
+  button.addEventListener("click", () => {
+    button.classList.toggle("enabled");
+  });
+});
+
+/* =========================
+   SLIDERS
+========================= */
+
+const healthSlider = $("#healthSlider");
+const healthValue = $("#healthValue");
+
+const armourSlider = $("#armourSlider");
+const armourValue = $("#armourValue");
+
+if (healthSlider && healthValue) {
+  healthSlider.addEventListener("input", () => {
+    healthValue.textContent = healthSlider.value;
+  });
 }
 
-function setServer(data = {}) {
-  currentServer = {
-    ...currentServer,
-    ...data
-  };
+if (armourSlider && armourValue) {
+  armourSlider.addEventListener("input", () => {
+    armourValue.textContent = armourSlider.value;
+  });
+}
 
-  $("serverName").textContent =
-    currentServer.group || currentServer.name || "Sem Grupo";
+/* =========================
+   PESQUISA
+========================= */
 
-  $("serverId").textContent =
-    currentServer.id || "default";
+const search = $("#search");
 
-  $("statServer").textContent =
-    currentServer.group || currentServer.name || "Sem Grupo";
+if (search) {
+  search.addEventListener("input", () => {
+    const text = search.value.toLowerCase().trim();
 
-  $("menuGroup").textContent =
-    currentServer.group || currentServer.name || "Sem Grupo";
+    document
+      .querySelectorAll(".menu-button, .toggle-row")
+      .forEach((element) => {
+        const matches =
+          element.textContent
+            .toLowerCase()
+            .includes(text);
 
-  const logo = $("serverLogo");
-  const fallback = $("serverFallback");
+        element.style.display =
+          matches || !text ? "" : "none";
+      });
+  });
+}
 
-  if (currentServer.logo) {
-    logo.src = currentServer.logo;
+/* =========================
+   RELÓGIO
+========================= */
 
-    logo.onload = () => {
-      logo.style.display = "block";
-      fallback.style.display = "none";
-    };
+function updateClock() {
+  const clock = $("#clock");
 
-    logo.onerror = () => {
-      logo.style.display = "none";
-      fallback.style.display = "grid";
-    };
-  } else {
-    logo.style.display = "none";
-    fallback.style.display = "grid";
+  if (!clock) return;
+
+  const now = new Date();
+
+  clock.textContent =
+    now.toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
+/* =========================
+   FPS VISUAL APROXIMADO
+========================= */
+
+let frames = 0;
+let lastTime = performance.now();
+
+function fpsLoop(now) {
+  frames++;
+
+  if (now - lastTime >= 1000) {
+    const fps = $("#fps");
+
+    if (fps) {
+      fps.textContent = frames;
+    }
+
+    frames = 0;
+    lastTime = now;
+  }
+
+  requestAnimationFrame(fpsLoop);
+}
+
+requestAnimationFrame(fpsLoop);
+
+/* =========================
+   DADOS DA INTERFACE
+========================= */
+
+function setUser(data = {}) {
+  const name =
+    data.username ||
+    data.name ||
+    "Usuário";
+
+  const id =
+    data.id !== undefined
+      ? data.id
+      : "---";
+
+  const profileName = $("#profileName");
+  const profileId = $("#profileId");
+
+  if (profileName) {
+    profileName.textContent = name;
+  }
+
+  if (profileId) {
+    profileId.textContent = `ID: ${id}`;
   }
 }
 
-function setPlayer(data = {}) {
-  playerData = {
-    ...playerData,
-    ...data
-  };
+function setServer(data = {}) {
+  const name =
+    data.group ||
+    data.name ||
+    "Sem Grupo";
 
-  $("username").textContent =
-    playerData.username || "Usuário";
+  const id =
+    data.id ||
+    "default";
 
-  $("menuUser").textContent =
-    playerData.username || "Usuário";
+  const serverName = $("#serverName");
+  const serverId = $("#serverId");
+  const footerServer = $("#footerServer");
 
-  $("code").textContent =
-    playerData.code || "HYP-XXXX-XXXX";
+  if (serverName) {
+    serverName.textContent = name;
+  }
+
+  if (serverId) {
+    serverId.textContent = id;
+  }
+
+  if (footerServer) {
+    footerServer.textContent = name;
+  }
 }
 
+/* =========================
+   LISTA DE JOGADORES
+========================= */
+
 function renderPlayers(players = []) {
-  const container = $("players");
+  const container = $("#players");
+
+  if (!container) return;
 
   container.innerHTML = "";
-  $("statPlayers").textContent = players.length;
 
   if (!players.length) {
     container.innerHTML =
-      '<div class="empty-state">Nenhum jogador recebido.</div>';
+      "<p>Nenhum jogador recebido.</p>";
 
     return;
   }
 
   players.forEach((player) => {
-    const item = document.createElement("div");
-    item.className = "player";
+    const item =
+      document.createElement("div");
+
+    item.className = "menu-button";
 
     const name =
       player.name ||
@@ -107,179 +218,143 @@ function renderPlayers(players = []) {
         ? ` #${player.id}`
         : "";
 
-    item.textContent = `${name}${id}`;
+    item.textContent =
+      `${name}${id}`;
+
     container.appendChild(item);
   });
 }
 
-async function nui(action, data = {}) {
-  if (
-    typeof GetParentResourceName !== "function"
-  ) {
-    console.log("[Hyper Menu]", action, data);
-    return;
-  }
-
-  try {
-    await fetch(
-      `https://${GetParentResourceName()}/${action}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json; charset=UTF-8"
-        },
-        body: JSON.stringify(data)
-      }
-    );
-  } catch (error) {
-    console.error(
-      "[Hyper Menu] NUI:",
-      error
-    );
-  }
-}
-
-document
-  .querySelectorAll(".tab")
-  .forEach((button) => {
-    button.addEventListener("click", () => {
-      document
-        .querySelectorAll(".tab")
-        .forEach((tab) =>
-          tab.classList.remove("active")
-        );
-
-      document
-        .querySelectorAll(".tab-content")
-        .forEach((content) =>
-          content.classList.add("hidden")
-        );
-
-      button.classList.add("active");
-
-      const target = document.getElementById(
-        `tab-${button.dataset.tab}`
-      );
-
-      if (target) {
-        target.classList.remove("hidden");
-      }
-    });
-  });
-
-document
-  .querySelectorAll("[data-action]")
-  .forEach((button) => {
-    button.addEventListener("click", () => {
-      const action = button.dataset.action;
-
-      if (button.classList.contains("toggle")) {
-        button.classList.toggle("enabled");
-
-        const enabled =
-          button.classList.contains("enabled");
-
-        const state = button.querySelector("span");
-
-        if (state) {
-          state.textContent =
-            enabled ? "ON" : "OFF";
-        }
-
-        nui(action, { enabled });
-        return;
-      }
-
-      nui(action);
-    });
-  });
-
-$("linkButton").addEventListener("click", () => {
-  statusText.textContent =
-    "Solicitando vinculação...";
-
-  nui("vincularMenu", {
-    code: playerData.code,
-    server: currentServer.id
-  });
-});
-
-$("close").addEventListener("click", () => {
-  nui("fecharMenu");
-});
+/* =========================
+   MENSAGENS RECEBIDAS
+========================= */
 
 window.addEventListener("message", (event) => {
   const data = event.data || {};
 
   switch (data.action) {
-    case "openLoading":
-      app.classList.remove("hidden");
-
-      if (data.text) {
-        $("loadingText").textContent = data.text;
-      }
-
-      if (data.version) {
-        $("version").textContent = data.version;
-      }
-
-      showScreen(loading);
-      break;
-
-    case "openLink":
-      app.classList.remove("hidden");
-
-      setServer(
-        data.server || data.serverData || {}
-      );
-
-      setPlayer(
-        data.player || data.playerInfo || {}
-      );
-
-      showScreen(linkScreen);
-      break;
-
     case "openMenu":
-      app.classList.remove("hidden");
+      document.body.style.display = "";
 
-      setServer(
-        data.server || data.serverData || {}
+      setUser(
+        data.player ||
+        data.playerInfo ||
+        {}
       );
 
-      setPlayer(
-        data.player || data.playerInfo || {}
+      setServer(
+        data.server ||
+        data.serverData ||
+        {}
       );
 
       if (Array.isArray(data.players)) {
         renderPlayers(data.players);
       }
 
-      showScreen(menu);
       break;
 
     case "updatePlayers":
-      renderPlayers(data.players || []);
+      renderPlayers(
+        data.players || []
+      );
+
       break;
 
-    case "linked":
-      statusText.textContent =
-        data.message || "Menu vinculado.";
+    case "updateUser":
+      setUser(
+        data.player ||
+        data.playerInfo ||
+        {}
+      );
 
-      if (data.success !== false) {
-        setTimeout(() => {
-          showScreen(menu);
-        }, 600);
-      }
       break;
 
-    case "notify":
-      statusText.textContent =
-        data.message || "";
+    case "updateServer":
+      setServer(
+        data.server ||
+        data.serverData ||
+        {}
+      );
+
       break;
 
     case "closeMenu":
-      app.classList.add("hidden");
+      document.body.style.display =
+        "none";
+
       break;
   }
+});
+
+/* =========================
+   CALLBACK NUI SEGURO
+========================= */
+
+async function nuiCallback(name, data = {}) {
+  if (
+    typeof GetParentResourceName !== "function"
+  ) {
+    console.log(
+      `[Hyper Menu] ${name}`,
+      data
+    );
+
+    return;
+  }
+
+  try {
+    await fetch(
+      `https://${GetParentResourceName()}/${name}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type":
+            "application/json; charset=UTF-8"
+        },
+        body: JSON.stringify(data)
+      }
+    );
+  } catch (error) {
+    console.error(
+      "[Hyper Menu]",
+      error
+    );
+  }
+}
+
+/* =========================
+   FECHAR
+========================= */
+
+const closeButton = $("#close");
+
+if (closeButton) {
+  closeButton.addEventListener(
+    "click",
+    () => {
+      nuiCallback("fecharMenu");
+    }
+  );
+}
+
+/* botão fechar das configurações */
+
+$("[data-action='fecharMenu']")
+  ?.addEventListener("click", () => {
+    nuiCallback("fecharMenu");
+  });
+
+/* =========================
+   TOP TABS VISUAIS
+========================= */
+
+$$(".top-tab").forEach((button) => {
+  button.addEventListener("click", () => {
+    $$(".top-tab").forEach((tab) => {
+      tab.classList.remove("active");
+    });
+
+    button.classList.add("active");
+  });
 });
