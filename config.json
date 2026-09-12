@@ -1,0 +1,34 @@
+{
+  "version": "2.0.0",
+  "brand": "Hyper Menu",
+  "servers": [
+    {
+      "id": "default",
+      "names": [],
+      "group": "Sem Grupo",
+      "logo": "",
+      "color": "#4cc9f0",
+      "veiculos_mods": [],
+      "armas_custom": [],
+      "peds_custom": []
+    },
+    {
+      "id": "strike",
+      "names": [
+        "strike"
+      ],
+      "group": "Strike",
+      "logo": "ui/images/strike.png",
+      "color": "#4cc9f0",
+      "veiculos_mods": [],
+      "armas_custom": [],
+      "peds_custom": []
+    }
+  ],
+  "ui": {
+    "title": "Hyper Menu",
+    "subtitle": "Painel de Controle",
+    "loading_text": "Carregando Hyper Menu...",
+    "link_text": "Vincular Menu"
+  }
+}
