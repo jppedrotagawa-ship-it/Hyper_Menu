@@ -8,179 +8,397 @@
 </head>
 
 <body>
-  <div id="app">
-    <div class="backdrop"></div>
+<div id="app">
 
-    <main class="panel">
-      <header class="topbar">
-        <div class="brand">
-          <div class="brand-mark">H</div>
-          <div>
-            <h1>Hyper Menu</h1>
-            <span id="version">2.0.0</span>
-          </div>
+  <div class="menu-shell">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div class="logo-area">
+        <div class="hyper-logo">
+          HYPER
+          <span>MENU</span>
         </div>
+        <small>v2.0.0</small>
+      </div>
 
-        <button id="close" class="close">×</button>
-      </header>
+      <div class="side-section">
+        <p class="section-label">Geral</p>
 
-      <!-- CARREGAMENTO -->
-      <section id="loading" class="screen">
-        <div class="loader"></div>
-
-        <h2>Hyper Menu</h2>
-        <p id="loadingText">Carregando Hyper Menu...</p>
-
-        <div class="progress">
-          <div class="progress-bar"></div>
-        </div>
-      </section>
-
-      <!-- VINCULAÇÃO -->
-      <section id="link" class="screen hidden">
-        <div class="server-card">
-          <div class="server-logo">
-            <img id="serverLogo" alt="">
-            <span id="serverFallback">H</span>
-          </div>
-
-          <div>
-            <small>GRUPO DETECTADO</small>
-            <h2 id="serverName">Sem Grupo</h2>
-            <p id="serverId">default</p>
-          </div>
-        </div>
-
-        <div class="user-card">
-          <div>
-            <small>USUÁRIO</small>
-            <strong id="username">-</strong>
-          </div>
-
-          <div>
-            <small>CÓDIGO DE VINCULAÇÃO</small>
-            <strong id="code">HYP-XXXX-XXXX</strong>
-          </div>
-        </div>
-
-        <button id="linkButton" class="primary">
-          Vincular Menu
+        <button class="side-item active" data-page="player">
+          <span class="side-icon">●</span>
+          Seu Jogador
         </button>
 
-        <p id="status" class="status"></p>
-      </section>
+        <button class="side-item" data-page="vehicles">
+          <span class="side-icon">▣</span>
+          Veículos
+        </button>
 
-      <!-- MENU PRINCIPAL -->
-      <section id="menu" class="hidden">
+        <button class="side-item" data-page="teleports">
+          <span class="side-icon">◆</span>
+          Teleports
+        </button>
 
-        <div class="dashboard">
-          <div>
-            <small>HYPER MENU</small>
-            <h2>Olá, <span id="menuUser">Usuário</span></h2>
-            <p id="menuGroup">Sem Grupo</p>
-          </div>
+        <button class="side-item" data-page="animations">
+          <span class="side-icon">★</span>
+          Anims
+        </button>
+      </div>
 
-          <div id="accessPill" class="pill">
-            LIBERADO
+      <div class="side-section">
+        <p class="section-label">World</p>
+
+        <button class="side-item" data-page="players">
+          <span class="side-icon">●●</span>
+          Jogadores
+        </button>
+
+        <button class="side-item" data-page="server">
+          <span class="side-icon">◎</span>
+          Servidor
+        </button>
+      </div>
+
+      <div class="side-section">
+        <p class="section-label">Outros</p>
+
+        <button class="side-item" data-page="visuals">
+          <span class="side-icon">◈</span>
+          Visuais
+        </button>
+
+        <button class="side-item" data-page="settings">
+          <span class="side-icon">⚙</span>
+          Configurações
+        </button>
+      </div>
+
+      <div class="profile">
+        <div class="avatar">H</div>
+
+        <div class="profile-info">
+          <strong id="profileName">Usuário</strong>
+          <span>Role: Cliente</span>
+          <span id="profileId">ID: ---</span>
+
+          <div class="online">
+            <i></i>
+            Conectado
           </div>
         </div>
+      </div>
 
-        <nav class="tabs">
-          <button class="tab active" data-tab="home">Início</button>
-          <button class="tab" data-tab="player">Player</button>
-          <button class="tab" data-tab="vehicles">Veículos</button>
-          <button class="tab" data-tab="players">Jogadores</button>
-          <button class="tab" data-tab="settings">Configurações</button>
-        </nav>
+      <div class="quote">
+        “O limite é só o começo.”
+      </div>
 
-        <div class="content">
+    </aside>
 
-          <div id="tab-home" class="tab-content">
-            <div class="grid">
-              <div class="stat">
-                <small>Servidor</small>
-                <strong id="statServer">-</strong>
-              </div>
+    <!-- ÁREA PRINCIPAL -->
+    <main class="main-area">
 
-              <div class="stat">
-                <small>Jogadores</small>
-                <strong id="statPlayers">0</strong>
-              </div>
+      <!-- TOPBAR -->
+      <header class="topbar">
 
-              <div class="stat">
-                <small>Status</small>
-                <strong>Conectado</strong>
-              </div>
-            </div>
+        <div class="top-tabs">
+          <button class="top-tab active">
+            <span>●</span>
+            General
+          </button>
+
+          <button class="top-tab">
+            <span>■</span>
+            Armário
+          </button>
+
+          <button class="top-tab">
+            <span>◆</span>
+            Teleports
+          </button>
+
+          <button class="top-tab">
+            <span>★</span>
+            Anims
+          </button>
+        </div>
+
+        <div class="top-actions">
+
+          <div class="search-box">
+            <span>⌕</span>
+            <input
+              id="search"
+              type="text"
+              placeholder="Pesquisar..."
+            >
           </div>
 
-          <div id="tab-player" class="tab-content hidden">
-            <div class="section-title">
-              <h3>Player</h3>
-              <p>Controles disponíveis para o jogador.</p>
-            </div>
+          <button class="window-btn">−</button>
+          <button id="close" class="window-btn">×</button>
 
-            <div class="actions-grid">
-              <button class="action" data-action="reviver">
+        </div>
+
+      </header>
+
+      <!-- PLAYER -->
+      <section id="page-player" class="page active-page">
+
+        <div class="columns">
+
+          <!-- COLUNA ESQUERDA -->
+          <div class="column">
+
+            <div class="card">
+
+              <div class="card-title">
+                <strong>Opções Gerais</strong>
+                <span>−</span>
+              </div>
+
+              <button
+                class="menu-button"
+                data-action="reviver"
+              >
                 Reviver
               </button>
 
-              <button class="action" data-action="limparFerimentos">
-                Limpar ferimentos
+              <button
+                class="menu-button"
+                data-action="limparFerimentos"
+              >
+                Limpar Ferimentos
               </button>
 
-              <button class="action" data-action="teleportWaypoint">
-                Ir para marcação
-              </button>
+              <div class="slider-option">
+                <div class="option-row">
+                  <span>Definir Vida</span>
+                  <strong id="healthValue">200</strong>
+                </div>
 
-              <button class="action toggle" data-action="staminaInfinita">
-                Stamina
-                <span>OFF</span>
-              </button>
+                <input
+                  id="healthSlider"
+                  type="range"
+                  min="0"
+                  max="200"
+                  value="200"
+                >
+              </div>
 
-              <button class="action toggle" data-action="semRagdoll">
-                Sem Ragdoll
-                <span>OFF</span>
-              </button>
+              <div class="slider-option">
+                <div class="option-row">
+                  <span>Set Armour</span>
+                  <strong id="armourValue">100</strong>
+                </div>
+
+                <input
+                  id="armourSlider"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="100"
+                >
+              </div>
+
+              <div class="toggle-row">
+                <span>Auto Reviver</span>
+
+                <button
+                  class="switch"
+                  data-action="autoReviver"
+                >
+                  <i></i>
+                </button>
+              </div>
+
             </div>
+
+            <div class="card">
+
+              <div class="card-title">
+                <strong>Movimentação</strong>
+                <span>−</span>
+              </div>
+
+              <div class="toggle-row">
+                <span>Stamina Infinita</span>
+
+                <button
+                  class="switch"
+                  data-action="staminaInfinita"
+                >
+                  <i></i>
+                </button>
+              </div>
+
+              <div class="toggle-row">
+                <span>Sem Ragdoll</span>
+
+                <button
+                  class="switch"
+                  data-action="semRagdoll"
+                >
+                  <i></i>
+                </button>
+              </div>
+
+            </div>
+
           </div>
 
-          <div id="tab-vehicles" class="tab-content hidden">
-            <div class="section-title">
-              <h3>Veículos</h3>
-              <p>Área de gerenciamento de veículos.</p>
+          <!-- COLUNA DIREITA -->
+          <div class="column">
+
+            <div class="card">
+
+              <div class="card-title">
+                <strong>Secundário</strong>
+                <span>−</span>
+              </div>
+
+              <button
+                class="menu-button"
+                data-action="teleportWaypoint"
+              >
+                Teleportar para Waypoint
+              </button>
+
+              <div class="toggle-row">
+                <span>Auto Teleport para Waypoint</span>
+
+                <button class="switch">
+                  <i></i>
+                </button>
+              </div>
+
+              <div class="toggle-row">
+                <span>Entrada Rápida no Veículo</span>
+
+                <button class="switch">
+                  <i></i>
+                </button>
+              </div>
+
+              <div class="toggle-row">
+                <span>Oxigênio Infinito</span>
+
+                <button class="switch">
+                  <i></i>
+                </button>
+              </div>
+
             </div>
 
-            <div class="empty-state">
-              Os veículos configurados para o servidor aparecerão aqui.
+            <div class="card">
+
+              <div class="card-title">
+                <strong>Proteções visuais</strong>
+                <span>−</span>
+              </div>
+
+              <div class="toggle-row">
+                <span>Ocultar HUD</span>
+
+                <button class="switch">
+                  <i></i>
+                </button>
+              </div>
+
+              <div class="toggle-row">
+                <span>Modo Limpo</span>
+
+                <button class="switch">
+                  <i></i>
+                </button>
+              </div>
+
             </div>
-          </div>
 
-          <div id="tab-players" class="tab-content hidden">
-            <div class="section-title">
-              <h3>Jogadores</h3>
-              <p>Jogadores conectados.</p>
-            </div>
-
-            <div id="players" class="players"></div>
-          </div>
-
-          <div id="tab-settings" class="tab-content hidden">
-            <div class="section-title">
-              <h3>Configurações</h3>
-              <p>Preferências do Hyper Menu.</p>
-            </div>
-
-            <button class="action" data-action="fecharMenu">
-              Fechar Menu
-            </button>
           </div>
 
         </div>
+
       </section>
+
+      <!-- OUTRAS PÁGINAS -->
+      <section id="page-vehicles" class="page">
+        <div class="empty-page">
+          <h2>Veículos</h2>
+          <p>Os veículos configurados aparecerão aqui.</p>
+        </div>
+      </section>
+
+      <section id="page-teleports" class="page">
+        <div class="empty-page">
+          <h2>Teleports</h2>
+          <p>Locais disponíveis aparecerão aqui.</p>
+        </div>
+      </section>
+
+      <section id="page-animations" class="page">
+        <div class="empty-page">
+          <h2>Animações</h2>
+          <p>Lista de animações.</p>
+        </div>
+      </section>
+
+      <section id="page-players" class="page">
+        <div class="empty-page">
+          <h2>Jogadores</h2>
+          <div id="players"></div>
+        </div>
+      </section>
+
+      <section id="page-server" class="page">
+        <div class="empty-page">
+          <h2 id="serverName">Servidor</h2>
+          <p id="serverId">default</p>
+        </div>
+      </section>
+
+      <section id="page-visuals" class="page">
+        <div class="empty-page">
+          <h2>Visuais</h2>
+          <p>Preferências visuais do Hyper Menu.</p>
+        </div>
+      </section>
+
+      <section id="page-settings" class="page">
+        <div class="empty-page">
+          <h2>Configurações</h2>
+
+          <button
+            class="menu-button settings-close"
+            data-action="fecharMenu"
+          >
+            Fechar Menu
+          </button>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="footer">
+
+        <div>
+          <strong>Hyper Menu</strong>
+          <span>Definitive Edition</span>
+        </div>
+
+        <div class="footer-right">
+          <span id="footerServer">Sem Grupo</span>
+          <span id="clock">--:--</span>
+          <span>FPS: <b id="fps">---</b></span>
+        </div>
+
+      </footer>
+
     </main>
+
   </div>
 
-  <script src="app.js"></script>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
